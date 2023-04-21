@@ -1,17 +1,23 @@
-import React, { useState } from 'react';
-import './TodoList.css';
+import React, { useState } from "react";
+import "./TodoList.css";
 
 function TodoList() {
   const [tasks, setTasks] = useState([]);
-  const [inputTask, setInputTask] = useState({ name: '', description: '', startDate: '', endDate: '', addedBy: '' });
+  const [inputTask, setInputTask] = useState({
+    name: "",
+    description: "",
+    startDate: "",
+    endDate: "",
+    addedBy: "",
+  });
   const [editingIndex, setEditingIndex] = useState(-1);
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    setInputTask(prevState => ({ ...prevState, [name]: value }));
+    setInputTask((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (editingIndex === -1) {
       setTasks([...tasks, inputTask]);
@@ -21,7 +27,13 @@ function TodoList() {
       setTasks(newTasks);
       setEditingIndex(-1);
     }
-    setInputTask({ name: '', description: '', startDate: '', endDate: '', addedBy: '' });
+    setInputTask({
+      name: "",
+      description: "",
+      startDate: "",
+      endDate: "",
+      addedBy: "",
+    });
   };
 
   const handleEdit = (index, task) => {
@@ -29,12 +41,16 @@ function TodoList() {
     setInputTask(task);
   };
 
-  const handleDelete = index => {
+  const handleDelete = (index) => {
     setTasks(tasks.filter((task, i) => i !== index));
   };
 
-  const handleCheckbox = index => {
-    setTasks(tasks.map((task, i) => i === index ? {...task, completed: !task.completed} : task));
+  const handleCheckbox = (index) => {
+    setTasks(
+      tasks.map((task, i) =>
+        i === index ? { ...task, completed: !task.completed } : task
+      )
+    );
   };
 
   return (
@@ -42,43 +58,76 @@ function TodoList() {
       <h2>crea tus tareas ᗜˬᗜ</h2>
       <form onSubmit={handleSubmit}>
         <label>
-          Tarea:
-          <input type="text" name="name" value={inputTask.name} onChange={handleChange} />
+          tarea:
+          <input
+            type="text"
+            name="name"
+            value={inputTask.name}
+            onChange={handleChange}
+          />
         </label>
         <label>
-          Descripción:
-          <input type="text" name="description" value={inputTask.description} onChange={handleChange} />
+          descripcion:
+          <input
+            type="text"
+            name="description"
+            value={inputTask.description}
+            onChange={handleChange}
+          />
         </label>
         <label>
-          Fecha de inicio:
-          <input type="date" name="startDate" value={inputTask.startDate} onChange={handleChange} />
+          inicia:
+          <input
+            type="date"
+            name="startDate"
+            value={inputTask.startDate}
+            onChange={handleChange}
+          />
         </label>
         <label>
-          Fecha de cierre:
-          <input type="date" name="endDate" value={inputTask.endDate} onChange={handleChange} />
+          vence:
+          <input
+            type="date"
+            name="endDate"
+            value={inputTask.endDate}
+            onChange={handleChange}
+          />
         </label>
         <label>
-          Creador de la tarea:
-          <input type="text" name="addedBy" value={inputTask.addedBy} onChange={handleChange} />
+          usuario:
+          <input
+            type="text"
+            name="addedBy"
+            value={inputTask.addedBy}
+            onChange={handleChange}
+          />
         </label>
-        <button type="submit">{editingIndex === -1 ? 'Agregar' : 'Guardar'}</button>
+        <button type="submit">
+          {editingIndex === -1 ? "Agregar" : "Guardar"}
+        </button>
       </form>
       <ul>
         {tasks.map((task, index) => (
           <li key={index}>
             <div>
-              <input type="checkbox" checked={task.completed} onChange={() => handleCheckbox(index)} />
-              <span style={task.completed ? { textDecoration: 'line-through' } : {}}>{task.name}</span>
+              <input
+                type="checkbox"
+                checked={task.completed}
+                onChange={() => handleCheckbox(index)}
+              />
+              <span style={task.completed ? { color: "green" } : {}}>
+                {task.name}
+              </span>
             </div>
             <div>
-              <p>Descripción: {task.description}</p>
-              <p>Fecha de inicio: {task.startDate}</p>
-              <p>Fecha de cierre: {task.endDate}</p>
-              <p>Creador de la tarea: {task.addedBy}</p>
+              <p>descripcion {task.description}</p>
+              <p>inicia {task.startDate}</p>
+              <p>vence {task.endDate}</p>
+              <p>usuario {task.addedBy}</p>
             </div>
             <div>
-              <button onClick={() => handleDelete(index)}>Eliminar</button>
-              <button onClick={() => handleEdit(index, task)}>Editar</button>
+              <button onClick={() => handleDelete(index)}>delete</button>
+              <button onClick={() => handleEdit(index, task)}>edit</button>
             </div>
           </li>
         ))}
